@@ -105,7 +105,7 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutputPath)$(TargetName)$(TargetExt)" "$(X32DBG_PATH)\plugins\"</Command>
+      <Command>copy "$(OutputPath)$(TargetName)$(TargetExt)" "$(X96DBG_PATH)\x32\plugins\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -148,7 +148,7 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutputPath)$(TargetName)$(TargetExt)" "$(X64DBG_PATH)\plugins\"</Command>
+      <Command>copy "$(OutputPath)$(TargetName)$(TargetExt)" "$(X96DBG_PATH)\x64\plugins\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

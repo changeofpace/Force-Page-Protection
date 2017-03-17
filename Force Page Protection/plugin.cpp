@@ -4,19 +4,18 @@
 static const char* authorName = "changeofpace";
 static const char* githubSourceURL = R"(https://github.com/changeofpace/Force-Page-Protection)";
 static const char* cmdForcePageProtection = "ForcePageProtection";
+static const char* cmdForcePageProtectionShort = "fpp";
+
+duint GetDisassemblyEA()
+{
+    SELECTIONDATA sel;
+    if (GuiSelectionGet(GUI_DISASSEMBLY,&sel))
+        return sel.start;
+    return 0;
+}
 
 static bool cbForcePageProtection(int argc, char* argv[])
 {
-    if (argc != 3)
-    {
-        PluginLog("usage: %s address, page_protection.\n", cmdForcePageProtection);
-        return false;
-    }
-    if (DbgIsRunning())
-    {
-        PluginLog("Error: debuggee must be paused.\n");
-        return false;
-    }
     const HANDLE hProcess = DbgGetProcessHandle();
     if (!hProcess)
     {
@@ -25,7 +24,7 @@ static bool cbForcePageProtection(int argc, char* argv[])
     }
 
     // Validate page protection arg.
-    const DWORD newProtection = DWORD(DbgValFromString(argv[2]));
+    const DWORD newProtection = argc == 3 ? DWORD(DbgValFromString(argv[2])) : 0x40;
     if (!memory::IsValidPageProtection(newProtection))
     {
         PluginLog("Error: 0x%X is not a valid page protection.\n", newProtection);
@@ -33,7 +32,7 @@ static bool cbForcePageProtection(int argc, char* argv[])
     }
     
     // Get the memory region's base address and size.
-    const duint requestedAddress = DbgValFromString(argv[1]);
+    const duint requestedAddress = argc == 3 ? DbgValFromString(argv[1]) : GetDisassemblyEA();
     duint regionSize = 0;
     const duint regionBase = DbgMemFindBaseAddr(requestedAddress, &regionSize);
     if (!(regionBase && regionSize))
@@ -128,6 +127,8 @@ bool pluginInit(PLUG_INITSTRUCT* initStruct)
         PluginLog("Failed to register command %s.\n", cmdForcePageProtection);
         return false;
     }
+    if (!_plugin_registercommand(pluginHandle, cmdForcePageProtectionShort, cbForcePageProtection, true))
+        PluginLog("Failed to register command %s.\n", cmdForcePageProtectionShort);
     return true;
 }
 

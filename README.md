@@ -23,12 +23,13 @@ This plugin defeats this technique by remapping the view with the desired protec
 ### Added Commands
 
 - **ForcePageProtection**
+- **fpp**
 
 ### Syntax
 
-    ForcePageProtection address, protection
+    ForcePageProtection [address, protection]
 
-This command attempts to set the page protection for the memory region that contains **address**. The **protection** argument is interpretted as a hex value representing a PAGE\_* constant.<sup>[1](#reference1)</sup>
+This command attempts to set the page protection for the memory region that contains **address**. The **protection** argument is interpretted as a hex value representing a PAGE\_* constant.<sup>[1](#reference1)</sup> If no arguments are specified, the address is set to the active address in the disassembly view, and the protection is set to PAGE\_EXECUTE\_READWRITE (0x40).
 
 ### Example
 
@@ -47,7 +48,7 @@ Will attempt to set all pages in the range ```30000 - 33FFF``` to **PAGE\_EXECUT
 
 ## Building
 
-A post-build event requires two environment variables, **"X64DBG\_PATH"** and **"X32DBG\_PATH"**, to be defined to their respective bin directories.
+A post-build event require the **"X96DBG\_PATH"** environment variable to be defined to the x64dbg installation directory.
 
 ## Notes
 
