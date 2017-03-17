@@ -2,7 +2,7 @@
 
 ## Summary
 
-This plugin sets the page protection for memory mapped views in scenarios which cause NtProtectVirtualMemory to fail.
+This x64dbg plugin sets the page protection for memory mapped views in scenarios which cause NtProtectVirtualMemory to fail.
 
 ## Motivation
 
